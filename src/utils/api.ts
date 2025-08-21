@@ -1,4 +1,6 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+import { Contact, ContactUpdate } from "../types/type";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export const AuthUser = async (email: string, password: string) => {
   const response = await fetch(`${BASE_URL}/auth/login`, {
@@ -150,3 +152,36 @@ export const newContact = async (
 
   return data;
 };
+
+export async function updateContact(
+  userId: string,
+  token: string,
+  contactId: string,
+  dataContact: ContactUpdate
+) {
+  const res = await fetch(`${BASE_URL}/contacts/${userId}/${contactId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify(dataContact),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    let firstError = "Erro ao criar conta";
+
+    if (data?.message) {
+      if (Array.isArray(data.message)) {
+        firstError = data.message[0];
+      } else if (typeof data.message === "string") {
+        firstError = data.message.split(",")[0];
+      }
+    }
+
+    throw new Error(firstError);
+  }
+  return data;
+}

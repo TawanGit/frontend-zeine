@@ -1,7 +1,7 @@
 "use client";
 import SidebarComponent from "./components/Sidebar";
 import Alphabet from "./components/Alphabet";
-import ContactList from "./components/ContactList";
+import ContactList from "./components/Contact/ContactList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchContacts } from "../../utils/api";
@@ -63,6 +63,9 @@ export default function ContactsPage() {
               userId={userid}
               token={token}
               onDelete={() => {
+                fetchContacts(userid, token).then((data) => setContacts(data));
+              }}
+              onUpdate={() => {
                 fetchContacts(userid, token).then((data) => setContacts(data));
               }}
               openModal={() => setOpenModal(true)}
