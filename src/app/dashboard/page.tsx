@@ -2,8 +2,25 @@
 import SidebarComponent from "./components/Sidebar";
 import Alphabet from "./components/Alphabet";
 import ContactList from "./components/ContactList";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ContactsPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/");
+    } else {
+      setIsLoading(false);
+    }
+  }, [router]);
+
+  if (isLoading) {
+    return <p>Verificando autenticação...</p>;
+  }
   return (
     <div className="flex bg-black h-screen w-screen  text-white">
       <SidebarComponent />

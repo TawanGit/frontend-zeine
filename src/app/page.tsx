@@ -1,33 +1,54 @@
 "use client";
 import { useState } from "react";
+import { AuthUser } from "../utils/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await AuthUser(email, password);
+      if (data.access_token) {
+        localStorage.setItem("token", data.access_token);
+        window.location.href = "/dashboard";
+      }
+    } catch (err: any) {
+      setError(err.message || "Erro no login");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex h-screen w-screen bg-[#2c2c2c]">
       <div className="hidden flex-1 relative md:flex items-start p-6 bg-black">
         <img
-          src="https://images.unsplash.com/photo-1549921296-3a878995a882?q=80&w=1200&auto=format&fit=crop"
+          src="background-home.png"
           alt="bg"
           className="absolute inset-0 w-full h-full object-cover opacity-40 blur-md"
         />
         <div className="relative z-10 flex items-start">
-          <img src="logo-guard.png" alt="logo" className=" " />
+          <img src="logo-guard.png" alt="logo" />
         </div>
       </div>
 
       <div className="flex-1 flex flex-col justify-center px-12 bg-[#1a1a1a]">
         <div className="absolute top-12 right-12 text-gray-400 text-sm">
-          <span className="text-gray-400">Não tem uma conta?</span>
-          <a href="#" className="text-[#C4F120] ml-1">
+          <span>Não tem uma conta?</span>
+          <a href="register" className="text-[#C4F120] ml-1">
             Criar conta
           </a>
         </div>
+
         <h2 className="text-white text-2xl font-semibold mb-6">
           Acessar conta
         </h2>
+
         <div className="flex flex-col gap-4">
           <div>
             <label className="block text-gray-400 text-sm mb-1">E-mail</label>
@@ -49,9 +70,16 @@ export default function Login() {
               className="w-full px-3 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:border-lime-400"
             />
           </div>
+
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
           <div className="justify-end flex items-center mt-2">
-            <button className="bg-[#C4F120] text-black font-bold w-max px-8  rounded-2xl align-end py-3 mt-2 hover:bg-lime-500 transition">
-              Acessar conta
+            <button
+              onClick={handleLogin}
+              disabled={loading}
+              className="bg-[#C4F120] text-black font-bold w-max px-8 rounded-2xl py-3 mt-2 hover:bg-lime-500 transition disabled:opacity-50"
+            >
+              {loading ? "Entrando..." : "Acessar conta"}
             </button>
           </div>
         </div>
