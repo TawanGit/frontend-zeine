@@ -10,11 +10,19 @@ export const AuthUser = async (email: string, password: string) => {
   });
 
   const data = await response.json();
-
   if (!response.ok) {
-    throw new Error(data?.message || "Login falhou");
-  }
+    let firstError = "Erro ao criar conta";
 
+    if (data?.message) {
+      if (Array.isArray(data.message)) {
+        firstError = data.message[0];
+      } else if (typeof data.message === "string") {
+        firstError = data.message.split(",")[0];
+      }
+    }
+
+    throw new Error(firstError);
+  }
   return data;
 };
 
@@ -46,19 +54,24 @@ export const SignUpUser = async (email: string, password: string) => {
   return data;
 };
 
-export const fetchContacts = async (userId: string) => {
-  const response = await fetch(`${BASE_URL}/user`, {
+export const fetchContacts = async (userId: string, letter?: string) => {
+  const params = new URLSearchParams();
+  params.append("userId", userId);
+  if (letter) {
+    params.append("letter", letter);
+  }
+
+  const response = await fetch(`${BASE_URL}/contacts?${params.toString()}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ userId }),
   });
 
   const data = await response.json();
 
   if (!response.ok) {
-    let firstError = "Erro ao criar conta";
+    let firstError = "Erro ao buscar contatos";
 
     if (data?.message) {
       if (Array.isArray(data.message)) {

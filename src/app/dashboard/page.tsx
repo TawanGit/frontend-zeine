@@ -4,23 +4,40 @@ import Alphabet from "./components/Alphabet";
 import ContactList from "./components/ContactList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { fetchContacts } from "../../utils/api";
 
 export default function ContactsPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const [contacts, setContacts] = useState<any>([]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (!token) {
       router.push("/");
-    } else {
-      setIsLoading(false);
+      return;
     }
+    setIsLoading(false);
+
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      console.error("User ID inválido");
+      return;
+    }
+
+    const fetchInitialContacts = async () => {
+      try {
+        const data = await fetchContacts(userId, undefined);
+        setContacts(data);
+      } catch (error) {
+        console.error("Erro ao buscar contatos:", error);
+        setContacts([]);
+      }
+    };
+
+    fetchInitialContacts();
   }, [router]);
 
-  if (isLoading) {
-    return <p>Verificando autenticação...</p>;
-  }
   return (
     <div className="flex bg-black h-screen w-screen  text-white">
       <SidebarComponent />
@@ -29,10 +46,11 @@ export default function ContactsPage() {
           <div className="flex flex-col   mx-8 items-start  m-8  ">
             <h1 className="text-2xl  font-semibold">Lista de contatos</h1>
             <div className="flex items-center gap-4 mt-4 px-4">
-              <Alphabet />
+              <Alphabet contacts={(data) => setContacts(data)} />
             </div>
           </div>
-          <ContactList />
+
+          <ContactList contacts={contacts} />
         </div>
       </main>
     </div>

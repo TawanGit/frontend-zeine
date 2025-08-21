@@ -15,6 +15,7 @@ export default function Login() {
       const data = await AuthUser(email, password);
       if (data.access_token) {
         localStorage.setItem("token", data.access_token);
+        localStorage.setItem("userId", data.userId);
         window.location.href = "/dashboard";
       }
     } catch (err: any) {
