@@ -14,6 +14,7 @@ export default function ContactsPage() {
   const [userid, setUserId] = useState<string>("");
   const [token, setToken] = useState<string>("");
   const [openModal, setOpenModal] = useState<boolean>(false);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -44,27 +45,31 @@ export default function ContactsPage() {
   }, [router]);
 
   return (
-    <div className="flex bg-black h-screen w-screen  text-white">
+    <div className="flex flex-col md:flex-row bg-black h-screen w-screen text-white">
       <SidebarComponent />
-      <main className="flex-1 flex items-center justify-center px-10">
-        <div className="bg-[#1a1a1a] w-full h-[90%] rounded-3xl flex">
-          <div className="flex flex-col   mx-8 items-start  m-8  ">
-            <h1 className="text-2xl  font-semibold">Lista de contatos</h1>
-            <div className="flex items-center gap-4 mt-4 px-4">
+
+      <main className="flex-1 flex flex-col md:flex-row items-center justify-center px-4 md:px-10 py-4 md:py-0">
+        <div className="bg-[#1a1a1a] w-full h-full md:h-[90%] rounded-3xl flex flex-col md:flex-row overflow-hidden">
+          <div className="flex flex-col mx-4 md:mx-8 mt-4 md:mt-8 items-start w-full md:w-auto">
+            <h1 className="text-2xl font-semibold mb-4">Lista de contatos</h1>
+            <div className="flex w-full md:w-auto overflow-x-auto">
               <Alphabet contacts={(data) => setContacts(data)} token={token} />
             </div>
           </div>
 
-          <ContactList
-            contacts={contacts}
-            userId={userid}
-            token={token}
-            onDelete={() => {
-              fetchContacts(userid, token).then((data) => setContacts(data));
-            }}
-            openModal={() => setOpenModal(true)}
-          />
+          <div className="flex-1 w-full md:w-auto h-full overflow-y-auto mt-4 md:mt-0 px-4 md:px-0">
+            <ContactList
+              contacts={contacts}
+              userId={userid}
+              token={token}
+              onDelete={() => {
+                fetchContacts(userid, token).then((data) => setContacts(data));
+              }}
+              openModal={() => setOpenModal(true)}
+            />
+          </div>
         </div>
+
         {openModal && (
           <Modal
             onClose={() => {

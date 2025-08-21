@@ -1,13 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { fetchContacts } from "../../../utils/api";
 
 interface AlphabetProps {
   contacts: (data: any[]) => void;
   token: string;
 }
+
 function Alphabet({ contacts, token }: AlphabetProps) {
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
+  const activeRef = useRef<HTMLSpanElement>(null);
 
   const handleClick = async (letter: string) => {
     setActiveLetter(letter);
@@ -15,17 +17,21 @@ function Alphabet({ contacts, token }: AlphabetProps) {
     if (userId) {
       const data = await fetchContacts(userId, token, letter);
       contacts(data);
-      console.log(data);
     } else {
       console.error("Id não encontrado no localStorage");
     }
   };
 
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [activeLetter]);
+
   return (
-    <div className="bg-lime-400 w-16 rounded-3xl h-[42rem] mt-6 overflow-auto flex flex-col items-center justify-center gap-2 py-6">
+    <div className="bg-lime-400 w-60  overflow-auto md:w-16 px-2 rounded-3xl mt-6 flex flex-row md:flex-col  items-center justify-start gap-2 py-6   max-h-[400px]">
       {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
         <span
           key={letter}
+          ref={activeLetter === letter ? activeRef : null}
           onClick={() => handleClick(letter)}
           className={`
             text-black font-bold cursor-pointer

@@ -46,13 +46,13 @@ function ContactList({
   const sortedLetters = Object.keys(groupedContacts).sort();
 
   return (
-    <div className="flex-1 px-4 md:px-8 py-6">
-      <div className="flex justify-end items-center mb-6 gap-2 md:gap-4 flex-wrap md:flex-nowrap">
-        <div className="relative w-full md:w-auto">
+    <div className="flex-1 px-4 md:px-8 py-6 w-full h-screen md:h-auto overflow-y-auto">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 flex-wrap">
+        <div className="relative w-full md:w-1/3">
           <input
             type="text"
             placeholder="Pesquisar"
-            className="bg-transparent border border-gray-700 rounded-lg pl-8 pr-3 py-2 text-sm text-white w-full md:w-auto focus:outline-none"
+            className="bg-transparent border border-gray-700 rounded-lg pl-8 pr-3 py-2 text-sm text-white w-full focus:outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -81,9 +81,9 @@ function ContactList({
             {groupedContacts[letter].map((contact) => (
               <div
                 key={contact.id}
-                className="flex flex-col md:flex-row items-start md:items-center justify-between border-t border-gray-700 py-4 gap-2 md:gap-4"
+                className="flex flex-col md:flex-row items-start md:items-center justify-between border-t border-gray-700 py-4 gap-2 md:gap-4 w-full"
               >
-                <div className="flex items-center gap-3 w-full md:w-auto">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
                   <img
                     src={contact.photo}
                     alt={contact.name}
@@ -92,11 +92,11 @@ function ContactList({
                   <p className="font-medium">{contact.name}</p>
                 </div>
 
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 w-full md:w-1/3 justify-between">
-                  <span className="flex-1">{contact.phone}</span>
-                  <span className="flex-1">{contact.email}</span>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-2/3 justify-between overflow-x-auto">
+                  <span className="flex-1 min-w-[100px]">{contact.phone}</span>
+                  <span className="flex-1 min-w-[150px]">{contact.email}</span>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 mt-2 sm:mt-0">
                     <button className="flex items-center justify-center bg-[#2c2c2c] p-2 rounded-lg hover:bg-[#333]">
                       <Edit2 className="w-4 h-4" />
                     </button>

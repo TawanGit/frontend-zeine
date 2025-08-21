@@ -22,6 +22,7 @@ export default function AddContactModal({
     type: "success" | "error";
     text: string;
   } | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -30,6 +31,9 @@ export default function AddContactModal({
   };
 
   const handleSave = async () => {
+    if (loading) return;
+    setLoading(true);
+
     try {
       await newContact(
         token,
@@ -48,6 +52,8 @@ export default function AddContactModal({
         type: "error",
         text: "Erro ao criar contato, tente novamente.",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -144,14 +150,18 @@ export default function AddContactModal({
           <button
             onClick={onClose}
             className="px-5 py-2 rounded-md bg-gray-700 text-white hover:bg-gray-600"
+            disabled={loading}
           >
             Cancelar
           </button>
           <button
             onClick={handleSave}
-            className="px-5 py-2 rounded-md bg-lime-400 text-black font-medium hover:bg-lime-300"
+            className={`px-5 py-2 rounded-md bg-lime-400 text-black font-medium hover:bg-lime-300 flex items-center justify-center gap-2 ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+            disabled={loading}
           >
-            Salvar
+            {loading ? "Salvando..." : "Salvar"}
           </button>
         </div>
       </div>
