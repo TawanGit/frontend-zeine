@@ -54,7 +54,11 @@ export const SignUpUser = async (email: string, password: string) => {
   return data;
 };
 
-export const fetchContacts = async (userId: string, letter?: string) => {
+export const fetchContacts = async (
+  userId: string,
+  token: string,
+  letter?: string
+) => {
   const params = new URLSearchParams();
   params.append("userId", userId);
   if (letter) {
@@ -65,6 +69,7 @@ export const fetchContacts = async (userId: string, letter?: string) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   });
 
@@ -84,5 +89,22 @@ export const fetchContacts = async (userId: string, letter?: string) => {
     throw new Error(firstError);
   }
 
+  return data;
+};
+
+export const deleteContact = async (
+  id: string,
+  userId: string,
+  token: string
+) => {
+  const response = await fetch(`${BASE_URL}/contacts/${id}?userId=${userId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  });
+
+  const data = await response.json();
   return data;
 };

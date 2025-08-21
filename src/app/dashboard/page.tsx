@@ -10,13 +10,15 @@ export default function ContactsPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [contacts, setContacts] = useState<any>([]);
-
+  const [userid, setUserId] = useState<string>("");
+  const [token, setToken] = useState<string>("");
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       router.push("/");
       return;
     }
+    setToken(token);
     setIsLoading(false);
 
     const userId = localStorage.getItem("userId");
@@ -24,10 +26,11 @@ export default function ContactsPage() {
       console.error("User ID inválido");
       return;
     }
+    setUserId(userId);
 
     const fetchInitialContacts = async () => {
       try {
-        const data = await fetchContacts(userId, undefined);
+        const data = await fetchContacts(userId, token, undefined);
         setContacts(data);
       } catch (error) {
         console.error("Erro ao buscar contatos:", error);
@@ -46,11 +49,11 @@ export default function ContactsPage() {
           <div className="flex flex-col   mx-8 items-start  m-8  ">
             <h1 className="text-2xl  font-semibold">Lista de contatos</h1>
             <div className="flex items-center gap-4 mt-4 px-4">
-              <Alphabet contacts={(data) => setContacts(data)} />
+              <Alphabet contacts={(data) => setContacts(data)} token={token} />
             </div>
           </div>
 
-          <ContactList contacts={contacts} />
+          <ContactList contacts={contacts} userId={userid} token={token} />
         </div>
       </main>
     </div>

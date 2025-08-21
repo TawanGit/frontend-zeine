@@ -4,15 +4,16 @@ import { fetchContacts } from "../../../utils/api";
 
 interface AlphabetProps {
   contacts: (data: any[]) => void;
+  token: string;
 }
-function Alphabet({ contacts }: AlphabetProps) {
+function Alphabet({ contacts, token }: AlphabetProps) {
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
 
   const handleClick = async (letter: string) => {
     setActiveLetter(letter);
     const userId = localStorage.getItem("userId");
     if (userId) {
-      const data = await fetchContacts(userId, letter);
+      const data = await fetchContacts(userId, token, undefined);
       contacts(data);
       console.log(data);
     } else {
