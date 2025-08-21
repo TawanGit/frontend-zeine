@@ -108,3 +108,45 @@ export const deleteContact = async (
   const data = await response.json();
   return data;
 };
+
+export const newContact = async (
+  token: string,
+  contact: { name: string; email: string; phone: string; userId: string },
+  photo?: File
+) => {
+  const formData = new FormData();
+  formData.append("name", contact.name);
+  formData.append("email", contact.email);
+  formData.append("phone", contact.phone);
+  formData.append("userId", contact.userId);
+
+  if (photo) {
+    formData.append("photo", photo);
+  }
+
+  const response = await fetch(`${BASE_URL}/contacts/`, {
+    method: "POST",
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: formData,
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    let firstError = "Erro ao buscar contatos";
+
+    if (data?.message) {
+      if (Array.isArray(data.message)) {
+        firstError = data.message[0];
+      } else if (typeof data.message === "string") {
+        firstError = data.message.split(",")[0];
+      }
+    }
+
+    throw new Error(firstError);
+  }
+
+  return data;
+};

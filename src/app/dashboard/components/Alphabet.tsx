@@ -13,7 +13,7 @@ function Alphabet({ contacts, token }: AlphabetProps) {
     setActiveLetter(letter);
     const userId = localStorage.getItem("userId");
     if (userId) {
-      const data = await fetchContacts(userId, token, undefined);
+      const data = await fetchContacts(userId, token, letter);
       contacts(data);
       console.log(data);
     } else {
@@ -22,8 +22,8 @@ function Alphabet({ contacts, token }: AlphabetProps) {
   };
 
   return (
-    <div className="bg-lime-400 w-16 rounded-3xl flex flex-col items-center justify-center gap-2 py-6">
-      {"ABCDEFGHIJKLMNO".split("").map((letter) => (
+    <div className="bg-lime-400 w-16 rounded-3xl h-[42rem] mt-6 overflow-auto flex flex-col items-center justify-center gap-2 py-6">
+      {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
         <span
           key={letter}
           onClick={() => handleClick(letter)}

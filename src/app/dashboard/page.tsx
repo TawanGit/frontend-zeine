@@ -5,6 +5,7 @@ import ContactList from "./components/ContactList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchContacts } from "../../utils/api";
+import Modal from "../components/Modal";
 
 export default function ContactsPage() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function ContactsPage() {
   const [contacts, setContacts] = useState<any>([]);
   const [userid, setUserId] = useState<string>("");
   const [token, setToken] = useState<string>("");
+  const [openModal, setOpenModal] = useState<boolean>(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -53,8 +55,26 @@ export default function ContactsPage() {
             </div>
           </div>
 
-          <ContactList contacts={contacts} userId={userid} token={token} />
+          <ContactList
+            contacts={contacts}
+            userId={userid}
+            token={token}
+            onDelete={() => {
+              fetchContacts(userid, token).then((data) => setContacts(data));
+            }}
+            openModal={() => setOpenModal(true)}
+          />
         </div>
+        {openModal && (
+          <Modal
+            onClose={() => {
+              setOpenModal(false);
+              fetchContacts(userid, token).then((data) => setContacts(data));
+            }}
+            token={token}
+            userId={userid}
+          />
+        )}
       </main>
     </div>
   );
