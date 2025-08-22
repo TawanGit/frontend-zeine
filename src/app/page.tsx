@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { AuthUser } from "../utils/api";
+import { AuthUser } from "../utils/user";
+import ErrorMessage from "./components/Error";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ export default function Login() {
       const data = await AuthUser(email, password);
       if (data.access_token) {
         localStorage.setItem("token", data.access_token);
+        localStorage.setItem("email", data.email);
         localStorage.setItem("userId", data.userId);
         window.location.href = "/dashboard";
       }
@@ -72,7 +74,7 @@ export default function Login() {
             />
           </div>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <ErrorMessage message={error} />}
 
           <div className="justify-end flex items-center mt-2">
             <button

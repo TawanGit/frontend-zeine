@@ -4,8 +4,8 @@ import Alphabet from "./components/Alphabet";
 import ContactList from "./components/Contact/ContactList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchContacts } from "../../utils/api";
 import Modal from "../components/Modal";
+import { fetchContacts } from "../../utils/contacts";
 
 export default function ContactsPage() {
   const router = useRouter();
@@ -52,7 +52,7 @@ export default function ContactsPage() {
         <div className="bg-[#1a1a1a] w-full h-full md:h-[90%] rounded-3xl flex flex-col md:flex-row overflow-hidden">
           <div className="flex flex-col mx-4 md:mx-8 mt-4 md:mt-8 items-start w-full md:w-auto">
             <h1 className="text-2xl font-semibold mb-4">Lista de contatos</h1>
-            <div className="flex w-full md:w-auto overflow-x-auto">
+            <div className="flex w-full justify-start md:w-auto overflow-x-auto ">
               <Alphabet contacts={(data) => setContacts(data)} token={token} />
             </div>
           </div>

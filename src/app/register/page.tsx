@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { SignUpUser } from "../../utils/api";
+import { SignUpUser } from "../../utils/user";
+import ErrorMessage from "../components/Error";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -73,7 +74,7 @@ export default function Register() {
             className="w-full px-3 py-2 rounded-lg bg-transparent border border-gray-600 text-white focus:outline-none focus:border-lime-400"
           />
 
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          {error && <ErrorMessage message={error} />}
 
           <div className="justify-end flex items-center mt-2">
             <button

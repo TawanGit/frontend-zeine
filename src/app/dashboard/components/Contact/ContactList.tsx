@@ -44,9 +44,9 @@ export default function ContactList({
   const letters = Object.keys(grouped).sort();
 
   return (
-    <div className="flex-1 px-4 md:px-8 py-6 w-full h-screen md:h-auto overflow-y-auto">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 flex-wrap">
-        <div className="relative w-full md:w-1/3">
+    <div className="flex-1 px-4 lg:px-8 py-6 w-full  lg:h-auto overflow-y-auto">
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 gap-4 flex-wrap">
+        <div className="relative w-full lg:w-1/3">
           <input
             type="text"
             placeholder="Pesquisar"

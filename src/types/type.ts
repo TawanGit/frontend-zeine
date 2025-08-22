@@ -11,3 +11,7 @@ export interface ContactUpdate {
   phone: string;
   email: string;
 }
+
+export interface UserUpdate {
+  email: string;
+}

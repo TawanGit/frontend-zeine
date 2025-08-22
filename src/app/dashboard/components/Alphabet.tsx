@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { fetchContacts } from "../../../utils/api";
+import { fetchContacts } from "../../../utils/contacts";
 
 interface AlphabetProps {
   contacts: (data: any[]) => void;
@@ -27,7 +27,7 @@ function Alphabet({ contacts, token }: AlphabetProps) {
   }, [activeLetter]);
 
   return (
-    <div className="bg-lime-400 w-60  overflow-auto md:w-16 px-2 rounded-3xl mt-6 flex flex-row md:flex-col  items-center justify-start gap-2 py-6   max-h-[400px]">
+    <div className="bg-lime-400 max-w-4/5  overflow-auto md:w-20 px-2 rounded-3xl mt-6 flex flex-row md:flex-col  items-center justify-start gap-2 py-6 max-h-[400px]">
       {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
         <span
           key={letter}
