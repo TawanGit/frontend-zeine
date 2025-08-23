@@ -44,7 +44,7 @@ export default function ContactItem({
 
   return (
     <>
-      <div className="flex flex-col md:flex-row md:items-center border-t border-gray-700 py-4 gap-4 w-full">
+      <div className="flex flex-col md:flex-row md:items-center border-t border-[#303030] py-4 gap-4 w-full">
         <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
           <span className="text-white opacity-40 text-sm font-bold mb-1 uppercase">
             Nome

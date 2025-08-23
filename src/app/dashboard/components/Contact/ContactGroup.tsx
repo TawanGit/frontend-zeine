@@ -31,7 +31,7 @@ export default function ContactGroup({
   onUpdate,
 }: ContactGroupProps) {
   return (
-    <div className="border-t border-gray-700 pt-4">
+    <div className="border-t border-[#303030] pt-4">
       <h2 className="text-lg font-medium mb-4">{letter}</h2>
       <div className="flex flex-col gap-2">
         {contacts.map((contact) => (

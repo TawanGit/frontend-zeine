@@ -64,7 +64,7 @@ export default function UserSettingsPage() {
     `w-full p-3 rounded-lg bg-[#1B1B1B] border ${
       enabled
         ? "border-lime-400"
-        : "border-gray-700 opacity-50 cursor-not-allowed"
+        : "border-[#303030] opacity-50 cursor-not-allowed"
     } text-white focus:outline-none focus:border-lime-400`;
 
   return (
@@ -108,7 +108,7 @@ export default function UserSettingsPage() {
             )}
           </div>
 
-          <div className="mt-12 border-t border-gray-700 pt-6">
+          <div className="mt-12 border-t border-[#303030] pt-6">
             <button
               onClick={handleDeleteAccount}
               className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"

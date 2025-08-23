@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { SignUpUser } from "../../utils/user";
 import ErrorMessage from "../components/Error";
+import Button from "../components/Button";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -44,7 +45,7 @@ export default function Register() {
       <div className="flex-1 flex flex-col justify-center px-12 bg-[#1a1a1a]">
         <div className="absolute top-12 right-12 text-gray-400 text-sm">
           <span className="text-gray-400">Já tem uma conta?</span>
-          <a href="login" className="text-[#C4F120] ml-1">
+          <a href="/" className="text-[#C4F120] ml-1">
             Acessar conta
           </a>
         </div>
@@ -77,13 +78,14 @@ export default function Register() {
           {error && <ErrorMessage message={error} />}
 
           <div className="justify-end flex items-center mt-2">
-            <button
-              onClick={handleRegister}
+            <Button
               disabled={loading}
-              className="bg-[#C4F120] text-black font-bold w-max px-8 rounded-2xl py-3 mt-2 hover:bg-lime-500 transition disabled:opacity-50"
+              loading={loading}
+              variant="primary"
+              onClick={handleRegister}
             >
-              {loading ? "Cadastrando..." : "Criar conta"}
-            </button>
+              Criar Conta
+            </Button>
           </div>
         </div>
       </div>

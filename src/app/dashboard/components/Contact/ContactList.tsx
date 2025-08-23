@@ -53,7 +53,7 @@ export default function ContactList({
           <input
             type="text"
             placeholder="Pesquisar"
-            className="bg-transparent border border-gray-700 rounded-lg pl-8 pr-3 py-2 text-sm text-white w-full focus:outline-none"
+            className="bg-transparent border border-[#303030] rounded-lg pl-8 pr-3 py-2 text-sm text-white w-full focus:outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

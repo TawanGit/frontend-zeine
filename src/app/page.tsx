@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { AuthUser } from "../utils/user";
 import ErrorMessage from "./components/Error";
+import Button from "./components/Button";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -77,13 +78,14 @@ export default function Login() {
           {error && <ErrorMessage message={error} />}
 
           <div className="justify-end flex items-center mt-2">
-            <button
-              onClick={handleLogin}
+            <Button
               disabled={loading}
-              className="bg-[#C4F120] text-black font-bold w-max px-8 rounded-2xl py-3 mt-2 hover:bg-lime-500 transition disabled:opacity-50"
+              loading={loading}
+              variant="primary"
+              onClick={handleLogin}
             >
-              {loading ? "Entrando..." : "Acessar conta"}
-            </button>
+              Acessar Conta
+            </Button>
           </div>
         </div>
       </div>

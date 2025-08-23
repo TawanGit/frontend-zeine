@@ -115,7 +115,7 @@ export default function EditContactModal({
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full mt-1 p-3 rounded-md bg-[#111] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-lime-400"
+              className="w-full mt-1 p-3 rounded-md bg-[#111] text-white border border-[#303030] focus:outline-none focus:ring-2 focus:ring-lime-400"
             />
           </div>
           <div>
@@ -124,7 +124,7 @@ export default function EditContactModal({
               type="text"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full mt-1 p-3 rounded-md bg-[#111] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-lime-400"
+              className="w-full mt-1 p-3 rounded-md bg-[#111] text-white border border-[#303030] focus:outline-none focus:ring-2 focus:ring-lime-400"
             />
           </div>
           <div>
@@ -133,7 +133,7 @@ export default function EditContactModal({
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full mt-1 p-3 rounded-md bg-[#111] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-lime-400"
+              className="w-full mt-1 p-3 rounded-md bg-[#111] text-white border border-[#303030] focus:outline-none focus:ring-2 focus:ring-lime-400"
             />
           </div>
         </div>
