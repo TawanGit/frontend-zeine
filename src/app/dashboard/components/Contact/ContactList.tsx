@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus, LockIcon, Search } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ContactGroup from "./ContactGroup";
 
 interface Contact {
@@ -31,6 +31,9 @@ export default function ContactList({
 }: ContactProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLocked, setIsLocked] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipTimer = useRef<NodeJS.Timeout | null>(null);
+
   const filtered = contacts.filter((c) =>
     c.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -44,7 +47,7 @@ export default function ContactList({
   const letters = Object.keys(grouped).sort();
 
   return (
-    <div className="flex-1 px-4 lg:px-8 py-6 w-full  lg:h-auto overflow-y-auto">
+    <div className="flex-1 px-4 lg:px-8 py-6 w-full lg:h-auto overflow-y-auto">
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 gap-4 flex-wrap">
         <div className="relative w-full lg:w-1/3">
           <input
@@ -60,10 +63,25 @@ export default function ContactList({
         <div className="flex items-center gap-2 md:gap-4 mt-2 md:mt-0 flex-wrap">
           <button
             onClick={openModal}
-            className="flex items-center gap-2 bg-[#2c2c2c] px-3 py-2 rounded-lg text-sm hover:bg-[#333]"
+            onMouseEnter={() => {
+              tooltipTimer.current = setTimeout(
+                () => setShowTooltip(true),
+                7000
+              );
+            }}
+            onMouseLeave={() => {
+              if (tooltipTimer.current) clearTimeout(tooltipTimer.current);
+              setShowTooltip(false);
+            }}
+            className="relative flex items-center gap-2 bg-[#2c2c2c] px-3 py-2 rounded-lg text-sm hover:bg-[#333]"
           >
             <Plus className="w-4 h-4" />
             Adicionar contato
+            {showTooltip && (
+              <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded-lg whitespace-nowrap z-10">
+                Tá esperando o quê? Boraa moeer!! 🚀
+              </span>
+            )}
           </button>
           <button
             className="flex items-center justify-center bg-[#2c2c2c] p-2 rounded-lg hover:bg-[#333]"
