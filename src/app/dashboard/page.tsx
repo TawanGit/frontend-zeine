@@ -48,10 +48,12 @@ export default function ContactsPage() {
     <div className="flex flex-col md:flex-row bg-black h-screen w-screen text-white">
       <SidebarComponent />
 
-      <main className="flex-1 flex flex-col md:flex-row items-center justify-center px-4 md:px-10 py-4 md:py-0">
-        <div className="bg-[#1a1a1a] w-full h-full md:h-[80%] rounded-3xl flex flex-col md:flex-row overflow-hidden">
+      <main className="flex-1 flex flex-col md:flex-row items-center justify-center  md:px-10  md:py-0">
+        <div className="bg-[#1a1a1a] w-full h-full md:h-[80%] rounded-none lg:rounded-3xl flex flex-col md:flex-row overflow-hidden">
           <div className="flex flex-col mx-4 md:mx-8 mt-4 md:mt-8 items-start w-full md:w-auto">
-            <h1 className="text-2xl font-semibold mb-4">Lista de contatos</h1>
+            <h1 className="text-2xl font-semibold mb-4 opacity-80">
+              Lista de contatos
+            </h1>
             <div className="flex w-full justify-start md:w-auto overflow-x-auto ">
               <Alphabet contacts={(data) => setContacts(data)} token={token} />
             </div>
