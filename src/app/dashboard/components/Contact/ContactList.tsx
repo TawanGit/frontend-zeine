@@ -30,7 +30,7 @@ export default function ContactList({
   onUpdate,
 }: ContactProps) {
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [isLocked, setIsLocked] = useState(false);
   const filtered = contacts.filter((c) =>
     c.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -65,7 +65,10 @@ export default function ContactList({
             <Plus className="w-4 h-4" />
             Adicionar contato
           </button>
-          <button className="flex items-center justify-center bg-[#2c2c2c] p-2 rounded-lg hover:bg-[#333]">
+          <button
+            className="flex items-center justify-center bg-[#2c2c2c] p-2 rounded-lg hover:bg-[#333]"
+            onClick={() => setIsLocked(!isLocked)}
+          >
             <LockIcon className="w-4 h-4" />
           </button>
         </div>
@@ -80,6 +83,7 @@ export default function ContactList({
           token={token}
           onDelete={onDelete}
           onUpdate={onUpdate}
+          isLocked={isLocked}
         />
       ))}
 

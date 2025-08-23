@@ -4,6 +4,7 @@ import { User, Upload } from "lucide-react";
 import { newContact } from "../../utils/contacts";
 import SuccessModal from "./Success";
 import ErrorModal from "./Error";
+import Button from "./Button";
 
 interface AddContactModalProps {
   onClose: () => void;
@@ -53,8 +54,8 @@ export default function AddContactModal({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-[#1a1a1a] rounded-xl shadow-lg w-[400px] p-6 relative">
+      <div className="backdrop-blur fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-[#1a1a1a] rounded-xl shadow-lg max-w-[95%] w-[400px] p-6 relative">
           <button
             className="absolute top-3 right-3 text-gray-400 hover:text-white"
             onClick={onClose}
@@ -125,22 +126,12 @@ export default function AddContactModal({
           {successMessage && <SuccessModal message={successMessage} />}
           {errorMessage && <ErrorModal message={errorMessage} />}
           <div className="flex justify-end mt-6 gap-3">
-            <button
-              onClick={onClose}
-              className="px-5 py-2 rounded-md bg-gray-700 text-white hover:bg-gray-600"
-              disabled={loading}
-            >
+            <Button onClick={onClose} loading={loading} variant="darkCancel">
               Cancelar
-            </button>
-            <button
-              onClick={handleSave}
-              className={`px-5 py-2 rounded-md bg-lime-400 text-black font-medium hover:bg-lime-300 flex items-center justify-center gap-2 ${
-                loading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-              disabled={loading}
-            >
-              {loading ? "Salvando..." : "Salvar"}
-            </button>
+            </Button>
+            <Button onClick={handleSave} loading={loading} variant="primary">
+              Salvar
+            </Button>
           </div>
         </div>
       </div>

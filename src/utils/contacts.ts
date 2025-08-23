@@ -64,17 +64,30 @@ export const updateContact = (
   userId: string,
   token: string,
   contactId: string,
-  dataContact: ContactUpdate
-) =>
-  handleRequest(
+  dataContact: ContactUpdate,
+  photo: File | null = null
+) => {
+  const formData = new FormData();
+
+  Object.entries(dataContact).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      formData.append(key, String(value));
+    }
+  });
+
+  if (photo) {
+    formData.append("photo", photo);
+  }
+
+  return handleRequest(
     `${BASE_URL}/contacts/${userId}/${contactId}`,
     {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      body: JSON.stringify(dataContact),
+      body: formData,
     },
     "Erro ao atualizar contato"
   );
+};

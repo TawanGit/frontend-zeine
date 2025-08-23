@@ -16,6 +16,7 @@ interface ContactGroupProps {
   contacts: Contact[];
   userId: string;
   token: string;
+  isLocked: boolean;
   onDelete: () => void;
   onUpdate: () => void;
 }
@@ -25,6 +26,7 @@ export default function ContactGroup({
   contacts,
   userId,
   token,
+  isLocked,
   onDelete,
   onUpdate,
 }: ContactGroupProps) {
@@ -38,6 +40,7 @@ export default function ContactGroup({
             contact={contact}
             userId={userId}
             token={token}
+            isLocked={isLocked}
             onDelete={onDelete}
             onUpdate={onUpdate}
           />

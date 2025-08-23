@@ -4,8 +4,9 @@ import Alphabet from "./components/Alphabet";
 import ContactList from "./components/Contact/ContactList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Modal from "../components/Modal";
+import Modal from "../components/AddContactModal";
 import { fetchContacts } from "../../utils/contacts";
+import AddContactModal from "../components/AddContactModal";
 
 export default function ContactsPage() {
   const router = useRouter();
@@ -13,8 +14,7 @@ export default function ContactsPage() {
   const [contacts, setContacts] = useState<any>([]);
   const [userid, setUserId] = useState<string>("");
   const [token, setToken] = useState<string>("");
-  const [openModal, setOpenModal] = useState<boolean>(false);
-
+  const [openModal, setOpenModal] = useState<string>("");
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -49,7 +49,7 @@ export default function ContactsPage() {
       <SidebarComponent />
 
       <main className="flex-1 flex flex-col md:flex-row items-center justify-center px-4 md:px-10 py-4 md:py-0">
-        <div className="bg-[#1a1a1a] w-full h-full md:h-[90%] rounded-3xl flex flex-col md:flex-row overflow-hidden">
+        <div className="bg-[#1a1a1a] w-full h-full md:h-[80%] rounded-3xl flex flex-col md:flex-row overflow-hidden">
           <div className="flex flex-col mx-4 md:mx-8 mt-4 md:mt-8 items-start w-full md:w-auto">
             <h1 className="text-2xl font-semibold mb-4">Lista de contatos</h1>
             <div className="flex w-full justify-start md:w-auto overflow-x-auto ">
@@ -68,15 +68,15 @@ export default function ContactsPage() {
               onUpdate={() => {
                 fetchContacts(userid, token).then((data) => setContacts(data));
               }}
-              openModal={() => setOpenModal(true)}
+              openModal={() => setOpenModal("AddContactModal")}
             />
           </div>
         </div>
 
-        {openModal && (
-          <Modal
+        {openModal === "AddContactModal" && (
+          <AddContactModal
             onClose={() => {
-              setOpenModal(false);
+              setOpenModal("");
               fetchContacts(userid, token).then((data) => setContacts(data));
             }}
             token={token}
