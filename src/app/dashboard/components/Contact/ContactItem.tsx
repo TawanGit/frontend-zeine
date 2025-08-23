@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Edit2, Trash2, Lock } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Edit2, Trash2, Lock, Unlock } from "lucide-react";
 import { Contact } from "../../../../types/type";
 import { deleteContact } from "../../../../utils/contacts";
 import ErrorMessage from "../../../components/Error";
@@ -26,9 +26,15 @@ export default function ContactItem({
 }: ContactItemProps) {
   const [error, setError] = useState<string | null>(null);
   const [openEdit, setOpenEdit] = useState(false);
-  const [isIndividuallyLocked, setIsIndividuallyLocked] = useState<
-    boolean | null
-  >(null);
+  const [isIndividuallyLocked, setIsIndividuallyLocked] = useState(false);
+
+  useEffect(() => {
+    if (!isLocked) setIsIndividuallyLocked(false);
+  }, [isLocked]);
+
+  const lockedByGlobal = isLocked;
+  const lockedByIndividual = !isLocked && isIndividuallyLocked;
+  const finalLock = lockedByGlobal || lockedByIndividual;
 
   const handleDelete = async () => {
     try {
@@ -39,14 +45,11 @@ export default function ContactItem({
     }
   };
 
-  const finalLock =
-    isIndividuallyLocked !== null ? isIndividuallyLocked : isLocked;
-
   return (
     <>
       <div className="flex flex-col md:flex-row md:items-center border-t border-[#303030] py-4 gap-4 w-full">
         <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
-          <span className="text-white opacity-40 text-sm font-bold mb-1 uppercase">
+          <span className="text-white/40 text-sm font-bold mb-1 uppercase">
             Nome
           </span>
           <div className="flex items-center gap-3">
@@ -60,7 +63,7 @@ export default function ContactItem({
         </div>
 
         <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
-          <span className="text-white opacity-40 text-sm font-bold mb-1 uppercase">
+          <span className="text-white/40 text-sm font-bold mb-1 uppercase">
             Telefone
           </span>
           <p className="text-gray-300">
@@ -69,7 +72,7 @@ export default function ContactItem({
         </div>
 
         <div className="flex flex-col gap-1 flex-1 min-w-[150px] overflow-hidden">
-          <span className="text-white opacity-40 text-sm font-bold mb-1 uppercase">
+          <span className="text-white/40 text-sm font-bold mb-1 uppercase">
             Email
           </span>
           <p className="text-gray-300 truncate">
@@ -87,20 +90,40 @@ export default function ContactItem({
           <button
             className="flex items-center justify-center bg-[#2c2c2c] p-2 rounded-lg hover:bg-[#333]"
             onClick={() => setOpenEdit(true)}
+            title="Editar"
           >
             <Edit2 className="w-4 h-4" />
           </button>
+
           <button
-            className="flex items-center justify-center bg-[#2c2c2c] p-2 rounded-lg hover:bg-[#333]"
+            className={`flex items-center justify-center bg-[#2c2c2c] p-2 rounded-lg hover:bg-[#333] ${
+              lockedByGlobal ? "opacity-60 cursor-not-allowed" : ""
+            }`}
             onClick={() =>
-              setIsIndividuallyLocked((prev) => (prev === null ? true : !prev))
+              !lockedByGlobal && setIsIndividuallyLocked((p) => !p)
+            }
+            disabled={lockedByGlobal}
+            title={
+              lockedByGlobal
+                ? "Bloqueado por: Todos"
+                : lockedByIndividual
+                ? "Bloqueado individualmente"
+                : "Desbloqueado"
             }
           >
-            <Lock className="w-4 h-4" />
+            {lockedByGlobal ? (
+              <Lock className="w-4 h-4 text-red-400" />
+            ) : lockedByIndividual ? (
+              <Lock className="w-4 h-4 text-yellow-400" />
+            ) : (
+              <Unlock className="w-4 h-4 text-green-400" />
+            )}
           </button>
+
           <button
             className="flex items-center justify-center bg-[#2c2c2c] p-2 rounded-lg hover:bg-[#333]"
             onClick={handleDelete}
+            title="Excluir"
           >
             <Trash2 className="w-4 h-4" />
           </button>
