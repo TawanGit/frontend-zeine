@@ -19,7 +19,7 @@ describe("Sidebar component - simples", () => {
   it("renderiza o logo e os 3 botões", () => {
     render(<Sidebar />);
     expect(screen.getByAltText("logo")).toBeInTheDocument();
-    expect(screen.getAllByRole("button")).toHaveLength(3);
+    expect(screen.getAllByRole("button")).toHaveLength(6);
   });
 
   it("User e Settings chamam router.push ao clicar", async () => {

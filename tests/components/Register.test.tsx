@@ -9,7 +9,7 @@ describe("Register Page - UI simples", () => {
     expect(screen.getByPlaceholderText("Senha")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Repetir senha")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Criar conta" })
+      screen.getByRole("button", { name: /criar conta/i })
     ).toBeInTheDocument();
   });
 
@@ -22,7 +22,7 @@ describe("Register Page - UI simples", () => {
       "123abc"
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "Criar conta" }));
+    await userEvent.click(screen.getByRole("button", { name: /criar conta/i }));
 
     expect(
       await screen.findByText("As senhas não coincidem")
@@ -34,7 +34,7 @@ describe("Register Page - UI simples", () => {
 
     const passwordInput = screen.getByPlaceholderText("Senha");
     const confirmInput = screen.getByPlaceholderText("Repetir senha");
-    const button = screen.getByRole("button", { name: "Criar conta" });
+    const button = screen.getByRole("button", { name: /criar conta/i });
 
     await userEvent.type(passwordInput, "senha123");
     await userEvent.type(confirmInput, "senha123");
